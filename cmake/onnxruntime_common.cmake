@@ -78,7 +78,7 @@ file(GLOB onnxruntime_common_src CONFIGURE_DEPENDS
 # Remove new/delete intercept. To deal with memory leaks
 # Use either non-mimalloc build OR use mimalloc built-in features.
 if(WIN32 AND onnxruntime_USE_MIMALLOC)
-    list(REMOVE_ITEM onnxruntime_common_src 
+    list(REMOVE_ITEM onnxruntime_common_src
     "${ONNXRUNTIME_ROOT}/core/platform/windows/debug_alloc.cc"
     "${ONNXRUNTIME_ROOT}/core/platform/windows/debug_alloc.h")
 endif()
@@ -127,7 +127,6 @@ endif()
 
 add_dependencies(onnxruntime_common ${onnxruntime_EXTERNAL_DEPENDENCIES})
 
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/../include/onnxruntime/core/common  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime/core)
 set_target_properties(onnxruntime_common PROPERTIES LINKER_LANGUAGE CXX)
 set_target_properties(onnxruntime_common PROPERTIES FOLDER "ONNXRuntime")
 
@@ -224,7 +223,11 @@ if (ARM64 OR ARM OR X86 OR X64 OR X86_64)
 endif()
 
 if (NOT onnxruntime_BUILD_SHARED_LIB)
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/../include/onnxruntime/core/common  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime/core)
+   #TODO: Cannot set part of ORT targets as it depends on targets which are not part of any export set,
+    # can be fixed if we use installed targets instead of submodule
     install(TARGETS onnxruntime_common
+            # EXPORT ${PROJECT_NAME}Targets
             ARCHIVE   DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY   DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME   DESTINATION ${CMAKE_INSTALL_BINDIR}

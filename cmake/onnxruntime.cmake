@@ -98,7 +98,7 @@ else()
 endif()
 
 add_dependencies(onnxruntime onnxruntime_generate_def ${onnxruntime_EXTERNAL_DEPENDENCIES})
-target_include_directories(onnxruntime PRIVATE ${ONNXRUNTIME_ROOT})
+target_include_directories(onnxruntime PRIVATE ${ONNXRUNTIME_ROOT} PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime>")
 
 target_compile_definitions(onnxruntime PRIVATE VER_MAJOR=${VERSION_MAJOR_PART})
 target_compile_definitions(onnxruntime PRIVATE VER_MINOR=${VERSION_MINOR_PART})
@@ -216,9 +216,10 @@ set_property(TARGET onnxruntime APPEND_STRING PROPERTY LINK_FLAGS ${ONNXRUNTIME_
 set_target_properties(onnxruntime PROPERTIES LINK_DEPENDS ${SYMBOL_FILE})
 
 
-set_target_properties(onnxruntime PROPERTIES VERSION ${ORT_VERSION})
+set_target_properties(onnxruntime PROPERTIES VERSION ${ONNXRUNTIME_VERSION})
 
 install(TARGETS onnxruntime
+        EXPORT ${PROJECT_NAME}Targets
         ARCHIVE   DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY   DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME   DESTINATION ${CMAKE_INSTALL_BINDIR}

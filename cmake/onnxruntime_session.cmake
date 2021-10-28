@@ -27,7 +27,14 @@ endif()
 source_group(TREE ${REPO_ROOT} FILES ${onnxruntime_session_srcs})
 
 onnxruntime_add_static_library(onnxruntime_session ${onnxruntime_session_srcs})
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/../include/onnxruntime/core/session  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime/core)
+set(onnxruntime_session_public_header
+  "${ONNXRUNTIME_INCLUDE_DIR}/core/session/onnxruntime_session_options_config_keys.h"
+  "${ONNXRUNTIME_INCLUDE_DIR}/core/session/onnxruntime_c_api.h"
+  "${ONNXRUNTIME_INCLUDE_DIR}/core/session/onnxruntime_cxx_api.h"
+  "${ONNXRUNTIME_INCLUDE_DIR}/core/session/onnxruntime_cxx_inline.h"
+  "${ONNXRUNTIME_INCLUDE_DIR}/core/session/onnxruntime_run_options_config_keys.h"
+)
+install(FILES ${onnxruntime_session_public_header}  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime)
 onnxruntime_add_include_to_target(onnxruntime_session onnxruntime_common onnxruntime_framework onnx onnx_proto ${PROTOBUF_LIB} flatbuffers)
 if(onnxruntime_ENABLE_INSTRUMENT)
   target_compile_definitions(onnxruntime_session PUBLIC ONNXRUNTIME_ENABLE_INSTRUMENT)
@@ -61,7 +68,10 @@ if (onnxruntime_ENABLE_TRAINING_TORCH_INTEROP)
 endif()
 
 if (NOT onnxruntime_BUILD_SHARED_LIB)
+    #TODO: Cannot set part of ORT targets as it depends on nlohmann_json which is not part of any export set,
+    # can be fixed if we use installed target nlohmann_json instead of submodule
     install(TARGETS onnxruntime_session
+            # EXPORT ${PROJECT_NAME}Targets
             ARCHIVE   DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY   DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME   DESTINATION ${CMAKE_INSTALL_BINDIR}

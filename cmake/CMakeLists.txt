@@ -1778,6 +1778,7 @@ if (onnxruntime_USE_VITISAI)
 endif()
 
 configure_file(onnxruntime_config.h.in ${CMAKE_CURRENT_BINARY_DIR}/onnxruntime_config.h)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/onnxruntime_config.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime)
 if (WIN32)
   configure_file(../requirements.txt.in ${CMAKE_CURRENT_BINARY_DIR}/Debug/requirements.txt)
   configure_file(../requirements.txt.in ${CMAKE_CURRENT_BINARY_DIR}/Release/requirements.txt)

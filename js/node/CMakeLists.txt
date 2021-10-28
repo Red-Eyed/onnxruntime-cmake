@@ -26,14 +26,12 @@ if(NOT ONNXRUNTIME_BUILD_DIR)
 endif()
 
 # include dirs
-include_directories(${CMAKE_JS_INC})
-include_directories(${CMAKE_SOURCE_DIR}/../../include/onnxruntime/core/session)
-include_directories(${CMAKE_SOURCE_DIR}/node_modules/node-addon-api)
 
 # source files
 file(GLOB SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cc)
 
 add_library(onnxruntime_binding SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
+target_include_directories(onnxruntime_binding PRIVATE ${CMAKE_JS_INC} ${CMAKE_SOURCE_DIR}/../../include/onnxruntime/core/session ${CMAKE_SOURCE_DIR}/node_modules/node-addon-api)
 set_target_properties(onnxruntime_binding PROPERTIES
   PREFIX "" SUFFIX ".node"
   BUILD_WITH_INSTALL_RPATH TRUE

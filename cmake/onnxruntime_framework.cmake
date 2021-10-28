@@ -39,12 +39,11 @@ onnxruntime_add_static_library(onnxruntime_framework ${onnxruntime_framework_src
 if(onnxruntime_ENABLE_INSTRUMENT)
   target_compile_definitions(onnxruntime_framework PRIVATE ONNXRUNTIME_ENABLE_INSTRUMENT)
 endif()
+target_include_directories(onnxruntime_framework PRIVATE ${ONNXRUNTIME_ROOT} ${eigen_INCLUDE_DIRS} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>" PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime>")
 if(onnxruntime_USE_TENSORRT OR onnxruntime_USE_NCCL)
-# TODO: for now, core framework depends on CUDA. It should be moved to TensorRT EP
-# TODO: provider_bridge_ort.cc should not include nccl.h
-target_include_directories(onnxruntime_framework PRIVATE ${ONNXRUNTIME_ROOT} ${eigen_INCLUDE_DIRS} ${onnxruntime_CUDNN_HOME}/include PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-else()
-target_include_directories(onnxruntime_framework PRIVATE ${ONNXRUNTIME_ROOT} ${eigen_INCLUDE_DIRS} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+  # TODO: for now, core framework depends on CUDA. It should be moved to TensorRT EP
+  # TODO: provider_bridge_ort.cc should not include nccl.h
+  target_include_directories(onnxruntime_framework PRIVATE ${onnxruntime_CUDNN_HOME}/include PUBLIC "$<BUILD_INTERFACE:${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}>")
 endif()
 # Needed for the provider interface, as it includes training headers when training is enabled
 if (onnxruntime_ENABLE_TRAINING OR onnxruntime_ENABLE_TRAINING_OPS)
@@ -88,7 +87,7 @@ endif()
 if (onnxruntime_DEBUG_NODE_INPUTS_OUTPUTS_ENABLE_DUMP_TO_SQLDB)
   find_package (SQLite3)
   if (SQLITE3_FOUND)
-    include_directories(${SQLite3_INCLUDE_DIR})
+    target_include_directories(onnxruntime_framework PRIVATE ${SQLite3_INCLUDE_DIR})
     target_link_libraries (onnxruntime_framework ${SQLite3_LIBRARY})
   else()
     message( FATAL_ERROR "Could not locate SQLite3 package." )
@@ -101,11 +100,11 @@ if (WIN32)
 endif()
 
 if (NOT onnxruntime_BUILD_SHARED_LIB)
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/../include/onnxruntime/core/framework  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime/core)
     install(TARGETS onnxruntime_framework
+            EXPORT ${PROJECT_NAME}Targets
             ARCHIVE   DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY   DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME   DESTINATION ${CMAKE_INSTALL_BINDIR}
             FRAMEWORK DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
-
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/../include/onnxruntime/core/framework  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime/core)

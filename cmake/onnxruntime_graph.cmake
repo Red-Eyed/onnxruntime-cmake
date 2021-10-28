@@ -96,7 +96,7 @@ if (onnxruntime_ENABLE_TRAINING)
   target_link_libraries(onnxruntime_graph PRIVATE nlohmann_json::nlohmann_json)
 endif()
 
-target_include_directories(onnxruntime_graph PRIVATE ${ONNXRUNTIME_ROOT})
+target_include_directories(onnxruntime_graph PRIVATE ${ONNXRUNTIME_ROOT} PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime>")
 
 if (onnxruntime_ENABLE_TRAINING OR onnxruntime_ENABLE_TRAINING_OPS)
     target_include_directories(onnxruntime_graph PRIVATE ${ORTTRAINING_ROOT})
@@ -108,7 +108,6 @@ endif()
 
 set_target_properties(onnxruntime_graph PROPERTIES FOLDER "ONNXRuntime")
 set_target_properties(onnxruntime_graph PROPERTIES LINKER_LANGUAGE CXX)
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/../include/onnxruntime/core/graph  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime/core)
 source_group(TREE ${REPO_ROOT} FILES ${onnxruntime_graph_src} ${onnxruntime_ir_defs_src})
 if (onnxruntime_ENABLE_TRAINING OR onnxruntime_ENABLE_TRAINING_OPS)
     source_group(TREE ${ORTTRAINING_ROOT} FILES ${orttraining_graph_src})
@@ -138,7 +137,9 @@ if (onnxruntime_ENABLE_ATEN)
 endif()
 
 if (NOT onnxruntime_BUILD_SHARED_LIB)
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/../include/onnxruntime/core/graph  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime/core)
     install(TARGETS onnxruntime_graph
+            EXPORT ${PROJECT_NAME}Targets
             ARCHIVE   DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY   DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME   DESTINATION ${CMAKE_INSTALL_BINDIR}
