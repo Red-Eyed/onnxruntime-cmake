@@ -598,12 +598,14 @@ if (onnxruntime_USE_DNNL)
   if(WIN32)
     install(TARGETS onnxruntime_providers_dnnl
             EXPORT ${PROJECT_NAME}Targets
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
             ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY  DESTINATION ${CMAKE_INSTALL_BINDIR}
             RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
   else()
     install(TARGETS onnxruntime_providers_dnnl
             EXPORT ${PROJECT_NAME}Targets
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
             ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
@@ -706,12 +708,14 @@ if (onnxruntime_USE_TENSORRT)
   if(WIN32)
     install(TARGETS onnxruntime_providers_tensorrt
             # EXPORT ${PROJECT_NAME}Targets
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
             ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY  DESTINATION ${CMAKE_INSTALL_BINDIR}
             RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
   else()
     install(TARGETS onnxruntime_providers_tensorrt
             # EXPORT ${PROJECT_NAME}Targets
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
             ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
@@ -878,12 +882,14 @@ if (onnxruntime_USE_OPENVINO)
   if(WIN32)
     install(TARGETS onnxruntime_providers_openvino
             # EXPORT ${PROJECT_NAME}Targets
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
             ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY  DESTINATION ${CMAKE_INSTALL_BINDIR}
             RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
   else()
     install(TARGETS onnxruntime_providers_openvino
             # EXPORT ${PROJECT_NAME}Targets
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
             ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})

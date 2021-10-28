@@ -98,7 +98,7 @@ else()
 endif()
 
 add_dependencies(onnxruntime onnxruntime_generate_def ${onnxruntime_EXTERNAL_DEPENDENCIES})
-target_include_directories(onnxruntime PRIVATE ${ONNXRUNTIME_ROOT} PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime>")
+target_include_directories(onnxruntime PRIVATE ${ONNXRUNTIME_ROOT} ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime/core/session PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime>")
 
 target_compile_definitions(onnxruntime PRIVATE VER_MAJOR=${VERSION_MAJOR_PART})
 target_compile_definitions(onnxruntime PRIVATE VER_MINOR=${VERSION_MINOR_PART})
