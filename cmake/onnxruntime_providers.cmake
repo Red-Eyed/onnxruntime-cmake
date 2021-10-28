@@ -534,14 +534,20 @@ if (onnxruntime_USE_CUDA)
   if (onnxruntime_ENABLE_ATEN)
     target_compile_definitions(onnxruntime_providers_cuda PRIVATE ENABLE_ATEN)
   endif()
-
   #FIXME: Cannot set to export group as onnxruntime_common is not of any export group
-  install(TARGETS onnxruntime_providers_cuda
-          # EXPORT ${PROJECT_NAME}Targets
-          ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
-
+  if(WIN32)
+    install(TARGETS onnxruntime_providers_cuda
+            # EXPORT ${PROJECT_NAME}Targets
+            ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY  DESTINATION ${CMAKE_INSTALL_BINDIR}
+            RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  else()
+    install(TARGETS onnxruntime_providers_cuda
+            # EXPORT ${PROJECT_NAME}Targets
+            ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  endif()
 endif()
 
 if (onnxruntime_USE_DNNL)
@@ -589,12 +595,19 @@ if (onnxruntime_USE_DNNL)
     message(FATAL_ERROR "onnxruntime_providers_dnnl unknown platform, need to specify shared library exports for it")
   endif()
 
-  install(TARGETS onnxruntime_providers_dnnl
-          EXPORT ${PROJECT_NAME}Targets
-          PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
-          ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  if(WIN32)
+    install(TARGETS onnxruntime_providers_dnnl
+            EXPORT ${PROJECT_NAME}Targets
+            ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY  DESTINATION ${CMAKE_INSTALL_BINDIR}
+            RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  else()
+    install(TARGETS onnxruntime_providers_dnnl
+            EXPORT ${PROJECT_NAME}Targets
+            ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  endif()
 endif()
 
 if (onnxruntime_USE_TENSORRT)
@@ -690,12 +703,19 @@ if (onnxruntime_USE_TENSORRT)
   endif()
 
   #FIXME: Cannot set to export group as onnxruntime_common is not of any export group
-  install(TARGETS onnxruntime_providers_tensorrt
-          # EXPORT ${PROJECT_NAME}Targets
-          PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
-          ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  if(WIN32)
+    install(TARGETS onnxruntime_providers_tensorrt
+            # EXPORT ${PROJECT_NAME}Targets
+            ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY  DESTINATION ${CMAKE_INSTALL_BINDIR}
+            RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  else()
+    install(TARGETS onnxruntime_providers_tensorrt
+            # EXPORT ${PROJECT_NAME}Targets
+            ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  endif()
 endif()
 
 if (onnxruntime_USE_NUPHAR)
@@ -855,12 +875,19 @@ if (onnxruntime_USE_OPENVINO)
   endif()
 
   #FIXME: Cannot set to export group as onnxruntime_common is not of any export group
-  install(TARGETS onnxruntime_providers_openvino
-          # EXPORT ${PROJECT_NAME}Targets
-          PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/onnxruntime
-          ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-          RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  if(WIN32)
+    install(TARGETS onnxruntime_providers_openvino
+            # EXPORT ${PROJECT_NAME}Targets
+            ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY  DESTINATION ${CMAKE_INSTALL_BINDIR}
+            RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  else()
+    install(TARGETS onnxruntime_providers_openvino
+            # EXPORT ${PROJECT_NAME}Targets
+            ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
+  endif()
 endif()
 
 if (onnxruntime_USE_COREML)
