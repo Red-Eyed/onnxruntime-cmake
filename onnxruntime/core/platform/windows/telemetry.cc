@@ -113,7 +113,7 @@ void WindowsTelemetry::LogProcessInfo() const {
                     TraceLoggingKeyword(MICROSOFT_KEYWORD_MEASURES),
                     // Telemetry info
                     TraceLoggingUInt8(0, "schemaVersion"),
-                    TraceLoggingString(ORT_VERSION, "runtimeVersion"),
+                    TraceLoggingString(ONNXRUNTIME_VERSION, "runtimeVersion"),
                     TraceLoggingBool(isRedist, "isRedist"));
 
   process_info_logged = true;

@@ -2586,7 +2586,7 @@ static_assert(offsetof(OrtApi, SessionOptionsAppendExecutionProvider_MIGraphX) /
 static_assert(offsetof(OrtApi, ReleaseKernelInfo) / sizeof(void*) == 218, "Size of version 12 API cannot change");
 
 // So that nobody forgets to finish an API version, this check will serve as a reminder:
-static_assert(std::string_view(ORT_VERSION) == "1.13.0", "ORT_Version change detected, please follow below steps to ensure OrtApi is updated properly");
+static_assert(std::string_view(ONNXRUNTIME_VERSION) == "1.13.0", "ORT_Version change detected, please follow below steps to ensure OrtApi is updated properly");
 // 1. Update the hardcoded version string in above static_assert to silence it
 // 2. If there were any APIs added to ort_api_1_to_13 above:
 //    a. Add the 'End of version #' markers (pattern above should be obvious)
@@ -2603,7 +2603,7 @@ ORT_API(const OrtApi*, OrtApis::GetApi, uint32_t version) {
 }
 
 ORT_API(const char*, OrtApis::GetVersionString) {
-  return ORT_VERSION;
+  return ONNXRUNTIME_VERSION;
 }
 
 const OrtApiBase* ORT_API_CALL OrtGetApiBase(void) NO_EXCEPTION {

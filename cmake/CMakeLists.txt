@@ -489,8 +489,9 @@ set(ONNXRUNTIME_ROOT ${PROJECT_SOURCE_DIR}/../onnxruntime)
 set(ORTTRAINING_ROOT ${PROJECT_SOURCE_DIR}/../orttraining)
 set(ORTTRAINING_SOURCE_DIR ${ORTTRAINING_ROOT}/orttraining)
 
-file (STRINGS "${REPO_ROOT}/VERSION_NUMBER" ORT_VERSION)
-
+if(NOT ONNXRUNTIME_VERSION)
+  file (STRINGS "${REPO_ROOT}/VERSION_NUMBER" ONNXRUNTIME_VERSION)
+endif()
 # Guarantee that the Eigen code that you are #including is licensed
 # under the MPL2 and possibly more permissive licenses (like BSD).
 add_definitions(-DEIGEN_MPL2_ONLY)
